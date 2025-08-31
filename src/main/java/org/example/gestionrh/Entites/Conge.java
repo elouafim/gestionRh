@@ -34,7 +34,6 @@ public class Conge {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
     @OneToMany(mappedBy = "conge", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<DocumentConge> documents = new HashSet<>();
 
