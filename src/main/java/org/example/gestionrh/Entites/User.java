@@ -16,6 +16,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Data
+@Table(name = "app_user")
 public class User {
 
     @Id
