@@ -1,3 +1,44 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://keyckoak-prod-production-551c.up.railway.app/realms/gestionrh
   application:
     name: gestionRh
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gestionRh
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: gestionrh
+ # sql:
+  #  init:
+  #    mode: always
+  #    data-locations: classpath:import.sql
+
+# Configuration Swagger / OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    title: Gestion RH API
+    description: Documentation de l'API pour la gestion RH
+  swagger-ui:
+    path: /swagger-ui.html
+
+keycloak:
+  realm: gestionrh
+  auth-server-url: https://keyckoak-prod-production-551c.up.railway.app
+  resource: gestionRhback
+  credentials:
+    secret: 3QB7anfZfRsGlzPpB5CR0PX8pVHisLdG
+  client-id: gestionRhback
