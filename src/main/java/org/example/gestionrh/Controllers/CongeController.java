@@ -17,7 +17,13 @@ public class CongeController {
 
     @PostMapping
     public ResponseEntity<CongeDTO> create(@RequestBody CongeCreateDTO dto) {
-        return ResponseEntity.ok(congeService.createConge(dto));
+        try {
+
+            return ResponseEntity.ok(congeService.createConge(dto));
+
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PutMapping("/{id}")

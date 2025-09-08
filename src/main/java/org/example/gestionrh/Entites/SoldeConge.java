@@ -1,10 +1,16 @@
 package org.example.gestionrh.Entites;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SoldeConge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

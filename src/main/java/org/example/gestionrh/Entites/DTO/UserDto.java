@@ -16,4 +16,9 @@ public class UserDto {
     private String email;
     private String phone;
     private RoleEnum role;
+
+    private int annee;
+    private int totalConges;
+    private int congesPris;
+    private int congesRestants;
 }

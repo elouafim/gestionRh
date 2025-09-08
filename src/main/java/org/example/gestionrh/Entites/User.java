@@ -47,8 +47,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<Conge> conges = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<SoldeConge> soldesConges = new HashSet<>();
+    private int annee;
+    private int totalConges;
+    private int congesPris;
+    private int congesRestants;
 
 }
 

@@ -12,4 +12,7 @@ public class UserCreateDTO {
     private String phone;
     private String password;
     private RoleEnum role;
+
+    private int annee;
+    private int totalConges;
 }

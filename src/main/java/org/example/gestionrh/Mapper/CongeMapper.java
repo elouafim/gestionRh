@@ -1,9 +1,11 @@
 package org.example.gestionrh.Mapper;
 
+import org.example.gestionrh.Config.AuthHelper;
 import org.example.gestionrh.Entites.Conge;
 import org.example.gestionrh.Entites.DTO.CongeCreateDTO;
 import org.example.gestionrh.Entites.DTO.CongeDTO;
 import org.example.gestionrh.Entites.DTO.RoleEnum;
+import org.example.gestionrh.Entites.DTO.Statut;
 import org.example.gestionrh.Entites.User;
 import org.example.gestionrh.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,14 @@ public class CongeMapper {
 
     public Conge toEntity(CongeCreateDTO dto) {
 
-        User user=userRepository.findById(dto.getIduser()).orElse(null);
+       String email= AuthHelper.getCurrentUserEmail();
+        User user=userRepository.findByEmail(email).orElse(null);
 
         return Conge.builder()
                 .dateDebut(dto.getDateDebut())
                 .dateFin(dto.getDateFin())
                 .typeConge(dto.getTypeConge())
-                .statut(dto.getStatut())
+                .statut(Statut.En_Attente)
                 .user(user)
                 .build();
     }

@@ -5,15 +5,22 @@ import org.example.gestionrh.Entites.Conge;
 import org.example.gestionrh.Entites.DTO.CongeCreateDTO;
 import org.example.gestionrh.Entites.DTO.CongeDTO;
 import org.example.gestionrh.Entites.DTO.Statut;
+import org.example.gestionrh.Entites.User;
 import org.example.gestionrh.Mapper.CongeMapper;
+import org.example.gestionrh.Mapper.UserMapper;
 import org.example.gestionrh.Repository.CongeRepository;
+import org.example.gestionrh.Repository.UserRepository;
 import org.example.gestionrh.Service.CongeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class CongeServiceImp implements CongeService {
@@ -25,11 +32,30 @@ public class CongeServiceImp implements CongeService {
     private CongeMapper mapper;
     @Autowired
     private CongeRepository congeRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public CongeDTO createConge(CongeCreateDTO congeCreateDTO) {
+
+
         Conge entity = mapper.toEntity(congeCreateDTO);
+
+        int duree=(int) ChronoUnit.DAYS.between(congeCreateDTO.getDateDebut(), congeCreateDTO.getDateFin());
+
+        User user = entity.getUser();
+
+        // Vérification du solde
+        if (user.getCongesPris() + duree > user.getTotalConges()) {
+            throw new IllegalArgumentException("Le nombre de jours demandés dépasse le solde de congés disponible.");
+        }
+
         Conge saved = repo.save(entity);
+        user.setCongesPris(user.getCongesPris() + duree);
+        user.setCongesRestants(user.getTotalConges() - user.getCongesPris());
+
         return mapper.toDTO(saved);
     }
 
